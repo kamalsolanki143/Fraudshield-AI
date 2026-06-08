@@ -14,6 +14,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from database.mongodb import close_db, connect_db
 
+from routes import auth, fraud, history, reports, payments, alerts, community
+
 load_dotenv()
 
 
@@ -82,11 +84,12 @@ async def health_check():
     return {"status": "ok", "service": "FraudShield AI Backend"}
 
 
-# Note: Routers will be registered here in subsequent steps
-# app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
-# app.include_router(fraud.router, prefix="/fraud", tags=["Fraud Detection"])
-# app.include_router(history.router, prefix="/history", tags=["History"])
-# app.include_router(reports.router, prefix="/reports", tags=["Reports"])
-# app.include_router(payments.router, prefix="/payments", tags=["Payments"])
-# app.include_router(alerts.router, prefix="/alerts", tags=["Alerts"])
-# app.include_router(community.router, prefix="/community", tags=["Community"])
+# Include Routers
+app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
+app.include_router(fraud.router, prefix="/fraud", tags=["Fraud Detection"])
+app.include_router(history.router, prefix="/history", tags=["History"])
+app.include_router(reports.router, prefix="/reports", tags=["Reports"])
+app.include_router(payments.router, prefix="/payments", tags=["Payments"])
+app.include_router(alerts.router, prefix="/alerts", tags=["Alerts"])
+app.include_router(community.router, prefix="/community", tags=["Community"])
+
