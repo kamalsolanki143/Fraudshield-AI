@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Settings, 
-  User, 
-  ShieldCheck, 
-  Key, 
-  Sliders, 
-  Bell, 
-  Save, 
-  Globe
+import {
+  Settings,
+  User,
+  ShieldCheck,
+  Key,
+  Sliders,
+  Save
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Sidebar } from '../components/Sidebar';
@@ -24,7 +21,6 @@ export const SettingsPage: React.FC = () => {
   const [email, setEmail] = useState(user?.email || 'alex.vance@geminixprize.org');
   const [twoFactor, setTwoFactor] = useState(true);
   const [gridOverlay, setGridOverlay] = useState(true);
-  const [glassIntensity, setGlassIntensity] = useState('high');
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,23 +29,23 @@ export const SettingsPage: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)]">
+    <div className="flex min-h-[calc(100vh-4rem)] bg-[#F8FAFC]">
       <Sidebar />
 
       <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-8 overflow-x-hidden">
-        
+
         {/* Header */}
         <div>
-          <h1 className="text-2xl sm:text-3xl font-heading font-extrabold text-white flex items-center gap-2">
-            System Configuration <Settings className="w-6 h-6 text-cyan-400" />
+          <h1 className="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900 flex items-center gap-2">
+            System Configuration <Settings className="w-6 h-6 text-blue-600" />
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">
             Manage account security, API keys, AI model sensitivity, and interface preferences.
           </p>
         </div>
 
         {/* Tab Buttons */}
-        <div className="flex items-center gap-2 border-b border-slate-800 pb-3 overflow-x-auto">
+        <div className="flex items-center gap-2 border-b border-slate-200 pb-3 overflow-x-auto">
           {[
             { id: 'account', label: 'Account Profile', icon: User },
             { id: 'security', label: 'Security & 2FA', icon: ShieldCheck },
@@ -63,8 +59,8 @@ export const SettingsPage: React.FC = () => {
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                   activeTab === tab.id
-                    ? 'bg-brand-600 text-white shadow-glow-sm'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                    ? 'bg-blue-600 text-white shadow-soft-sm'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -77,25 +73,25 @@ export const SettingsPage: React.FC = () => {
         {/* Tab Contents */}
         <GlassCard className="p-6">
           <form onSubmit={handleSave} className="space-y-6 max-w-2xl text-xs">
-            
+
             {activeTab === 'account' && (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-slate-300 mb-1 font-mono">Full Name</label>
+                  <label className="block text-slate-700 mb-1 font-mono font-semibold">Full Name</label>
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 text-white outline-none focus:border-cyan-500"
+                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 outline-none focus:border-blue-600"
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-300 mb-1 font-mono">Email Address</label>
+                  <label className="block text-slate-700 mb-1 font-mono font-semibold">Email Address</label>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 text-white outline-none focus:border-cyan-500"
+                    className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 outline-none focus:border-blue-600"
                   />
                 </div>
               </div>
@@ -103,16 +99,16 @@ export const SettingsPage: React.FC = () => {
 
             {activeTab === 'security' && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-950 border border-slate-800">
+                <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-200">
                   <div>
-                    <h4 className="font-bold text-white">Two-Factor Authentication (2FA)</h4>
-                    <p className="text-[11px] text-slate-400">Require TOTP authenticator code on login.</p>
+                    <h4 className="font-bold text-slate-900">Two-Factor Authentication (2FA)</h4>
+                    <p className="text-[11px] text-slate-500">Require TOTP authenticator code on login.</p>
                   </div>
                   <input
                     type="checkbox"
                     checked={twoFactor}
                     onChange={(e) => setTwoFactor(e.target.checked)}
-                    className="w-5 h-5 accent-brand-500 cursor-pointer"
+                    className="w-5 h-5 accent-blue-600 cursor-pointer"
                   />
                 </div>
               </div>
@@ -121,8 +117,8 @@ export const SettingsPage: React.FC = () => {
             {activeTab === 'api' && (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-slate-300 mb-1 font-mono">Gemini Vision Model Sensitivity</label>
-                  <select className="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 text-white outline-none focus:border-cyan-500">
+                  <label className="block text-slate-700 mb-1 font-mono font-semibold">Gemini Vision Model Sensitivity</label>
+                  <select className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 outline-none focus:border-blue-600">
                     <option>High Strictness (Recommended for Financial Phishing)</option>
                     <option>Balanced</option>
                     <option>Permissive</option>
@@ -133,25 +129,25 @@ export const SettingsPage: React.FC = () => {
 
             {activeTab === 'appearance' && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-950 border border-slate-800">
+                <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-200">
                   <div>
-                    <h4 className="font-bold text-white">Cyber Grid Overlay Pattern</h4>
-                    <p className="text-[11px] text-slate-400">Display subtle background grid lines.</p>
+                    <h4 className="font-bold text-slate-900">Light Pattern Backdrop</h4>
+                    <p className="text-[11px] text-slate-500">Display subtle background grid dots.</p>
                   </div>
                   <input
                     type="checkbox"
                     checked={gridOverlay}
                     onChange={(e) => setGridOverlay(e.target.checked)}
-                    className="w-5 h-5 accent-brand-500 cursor-pointer"
+                    className="w-5 h-5 accent-blue-600 cursor-pointer"
                   />
                 </div>
               </div>
             )}
 
-            <div className="pt-4 border-t border-slate-800 flex justify-end">
+            <div className="pt-4 border-t border-slate-200 flex justify-end">
               <button
                 type="submit"
-                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-cyan-500 text-white font-semibold flex items-center gap-2 shadow-glow-sm"
+                className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold flex items-center gap-2 shadow-soft-sm"
               >
                 <Save className="w-4 h-4" />
                 <span>Save Configuration</span>

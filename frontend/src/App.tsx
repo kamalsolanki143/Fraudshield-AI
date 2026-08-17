@@ -18,13 +18,14 @@ import { SettingsPage } from './pages/SettingsPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 const AnimatedRoutes: React.FC = () => {
   const location = useLocation();
   const hideHeaderFooter = ['/login', '/register', '/404'].includes(location.pathname);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#070B14] text-slate-100 selection:bg-brand-500 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 selection:bg-blue-600 selection:text-white">
       {!hideHeaderFooter && <Navbar />}
 
       <div className="flex-1">
@@ -36,19 +37,22 @@ const AnimatedRoutes: React.FC = () => {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
           >
-            <Routes location={location}>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/analyze" element={<AnalyzePage />} />
-              <Route path="/history" element={<HistoryPage />} />
-              <Route path="/community" element={<CommunityPage />} />
-              <Route path="/pricing" element={<PricingPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
+              <Routes location={location}>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/analyze" element={<AnalyzePage />} />
+                <Route path="/pricing" element={<PricingPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+
+                {/* Protected Routes */}
+                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
+                <Route path="/community" element={<ProtectedRoute><CommunityPage /></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+                <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
           </motion.div>
         </AnimatePresence>
       </div>

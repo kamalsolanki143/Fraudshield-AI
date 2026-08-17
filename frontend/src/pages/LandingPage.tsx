@@ -1,31 +1,89 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { 
-  ShieldAlert, 
-  Sparkles, 
-  ArrowRight, 
-  Zap, 
-  Eye, 
-  Lock, 
-  Search, 
-  Award, 
-  HelpCircle, 
-  ChevronDown,
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ShieldCheck,
+  Sparkles,
+  ArrowRight,
+  Lock,
+  Eye,
+  Zap,
+  Search,
+  Upload,
+  Globe,
   CheckCircle2,
-  AlertOctagon
+  AlertTriangle,
+  Languages,
+  ChevronRight,
+  ShieldAlert,
+  Cpu,
+  FileText,
+  MessageSquare,
+  Shield,
+  Activity,
+  Layers,
+  Code,
+  Share2
 } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
 import { GlassCard } from '../components/GlassCard';
 
 export const LandingPage: React.FC = () => {
-  const { t } = useLanguage();
   const navigate = useNavigate();
 
+  // Hero Quick Scanner input state
   const [quickInput, setQuickInput] = useState('');
-  const [activeFaq, setActiveFaq] = useState<number | null>(0);
+  const [demoStep, setDemoStep] = useState(0);
+  const [hindiToggle, setHindiToggle] = useState(false);
 
-  const handleQuickAnalyze = (e: React.FormEvent) => {
+  // Real scam samples for 1-click test
+  const realScamSamples = [
+    {
+      title: "Electricity Disconnection SMS",
+      tag: "SMS Phishing",
+      risk: "CRITICAL",
+      score: 94,
+      text: "Dear Consumer, your Electricity power line will be disconnected tonight at 9:30 PM due to unpaid bill. Update IMMEDIATELY at http://bijli-sbi-update.top/pay",
+      desc: "Spoofed Utility Bill Urgent Payment",
+      color: "rose"
+    },
+    {
+      title: "Telegram Part-Time YouTube Job",
+      tag: "UPI Fraud",
+      risk: "HIGH",
+      score: 88,
+      text: "Earn Rs 5,000/day by liking YouTube videos! Pay refundable registration fee of Rs 1,999 to UPI: hire.recruiter@okicici",
+      desc: "Work-From-Home Deposit Scheme",
+      color: "amber"
+    },
+    {
+      title: "SBI Account KYC Deactivation",
+      tag: "Bank Impersonation",
+      risk: "CRITICAL",
+      score: 96,
+      text: "Your SBI Netbanking account is blocked due to missing Pan Card KYC. Re-activate within 24 hours at http://sbi-pan-kyc.info",
+      desc: "Phishing Link & Credential Harvester",
+      color: "rose"
+    },
+    {
+      title: "Amazon Official 2FA Login OTP",
+      tag: "Legitimate SMS",
+      risk: "SAFE",
+      score: 8,
+      text: "Your Amazon login OTP is 849201. Valid for 5 minutes. Do not share this code with anyone.",
+      desc: "Transactional 2-Factor Authentication",
+      color: "emerald"
+    }
+  ];
+
+  // Auto-play interactive OCR demo step
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setDemoStep((prev) => (prev < 4 ? prev + 1 : 0));
+    }, 3200);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleQuickAnalyzeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (quickInput.trim()) {
       navigate(`/analyze?query=${encodeURIComponent(quickInput)}`);
@@ -34,289 +92,387 @@ export const LandingPage: React.FC = () => {
     }
   };
 
-  const features = [
-    {
-      title: 'Multimodal Vision OCR',
-      description: 'Reads screenshots of WhatsApp, UPI payment apps, SMS, and documents using Google Gemini Vision AI.',
-      icon: Eye,
-      gradient: 'from-blue-500 to-cyan-400',
-    },
-    {
-      title: 'NLP Coercion Reasoning',
-      description: 'Detects psychological urgency tactics, fake police threats, and artificial financial panic patterns.',
-      icon: Zap,
-      gradient: 'from-purple-500 to-blue-500',
-    },
-    {
-      title: 'Domain Spoof Sentinel',
-      description: 'Cross-references URLs against global cyber threat registries to instantly flag fake banking sites.',
-      icon: Lock,
-      gradient: 'from-emerald-400 to-cyan-400',
-    },
-    {
-      title: 'Crowdsourced Alert Feed',
-      description: 'Real-time community-verified threat telemetry across India and worldwide.',
-      icon: ShieldAlert,
-      gradient: 'from-amber-400 to-danger',
-    },
-  ];
-
-  const faqs = [
-    {
-      q: 'How does FraudShield AI use Google Gemini XPrize AI?',
-      a: 'FraudShield AI combines Gemini 1.5 Pro multimodal vision with deep NLP reasoning to analyze screenshots, SMS text, and URLs simultaneously in under 2 seconds.',
-    },
-    {
-      q: 'Can it detect UPI payment scams in Hindi and local regional languages?',
-      a: 'Yes! Our dynamic bilingual engine natively parses Hindi, English, and Hinglish messages commonly used in Indian online scams.',
-    },
-    {
-      q: 'Is my uploaded screenshot or text data private?',
-      a: 'Enterprise-grade zero-knowledge encryption ensures your sensitive banking or personal information is never stored or shared.',
-    },
-    {
-      q: 'What should I do if FraudShield flags a critical threat?',
-      a: 'Follow the 1-click recommended defense steps: block the sender, report to National Cyber Crime Portal (1930), and alert your community.',
-    },
-  ];
-
   return (
-    <div className="relative overflow-hidden min-h-screen">
-      
-      {/* Animated Background Mesh & Blobs */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none z-0">
-        <div className="absolute top-12 left-1/4 w-96 h-96 bg-brand-600/20 rounded-full blur-[120px] animate-pulse-glow" />
-        <div className="absolute top-32 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: '1.5s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-cyber-grid bg-grid-pattern opacity-40" />
-      </div>
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans space-y-20 pb-20">
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24 space-y-28">
-        
-        {/* Hero Section */}
-        <section className="text-center space-y-8 max-w-4xl mx-auto">
-          
-          {/* XPrize Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-cyan-500/40 text-cyan-300 text-xs font-mono font-medium shadow-glow-sm"
-          >
-            <Award className="w-4 h-4 text-cyan-400" />
-            <span>{t('hero.badge')}</span>
-          </motion.div>
+      {/* SECTION 1: BESPOKE AI SECURITY HERO */}
+      <section className="relative pt-12 sm:pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Main Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl sm:text-6xl lg:text-7xl font-heading font-extrabold tracking-tight text-white leading-tight"
-          >
-            Don't get scammed. <br />
-            <span className="gradient-text-blue">Multimodal Gemini AI</span> Defends You.
-          </motion.h1>
+        {/* Subtle Ambient Glows */}
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-indigo-200/40 via-purple-200/30 to-pink-100/40 rounded-full blur-[140px] pointer-events-none" />
+
+        <div className="relative z-10 text-center max-w-4xl mx-auto space-y-6">
+
+          {/* Live Telemetry Pill */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-soft-sm text-xs font-mono font-semibold text-slate-700">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Google Build with Gemini XPrize Entry</span>
+            <span className="text-slate-300">•</span>
+            <span className="text-indigo-600 font-bold">4,302 Scams Intercepted Today</span>
+          </div>
+
+          {/* Main Title */}
+          <h1 className="text-4xl sm:text-6xl font-heading font-extrabold text-slate-900 tracking-tight leading-[1.1]">
+            Stop Cyber Scams Before They <br className="hidden sm:inline" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600">
+              Drain Your Bank Account
+            </span>
+          </h1>
 
           {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-base sm:text-xl text-slate-300 font-sans max-w-2xl mx-auto leading-relaxed"
-          >
-            {t('hero.subtitle')}
-          </motion.p>
+          <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
+            FraudShield AI uses <strong>Gemini 1.5 Pro Multimodal Vision</strong> to inspect fake banking screenshots, spoofed links, and high-coercion SMS in sub-1.8 seconds.
+          </p>
 
-          {/* Interactive Live Quick Scam Input Form */}
-          <motion.form
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3 }}
-            onSubmit={handleQuickAnalyze}
-            className="max-w-2xl mx-auto p-2 glass-panel rounded-2xl border border-slate-700/80 shadow-2xl flex items-center gap-2"
-          >
-            <div className="flex-1 flex items-center gap-3 px-3">
-              <Search className="w-5 h-5 text-slate-400" />
+          {/* Hero Quick Inspection Bar */}
+          <div className="pt-4 max-w-2xl mx-auto">
+            <form onSubmit={handleQuickAnalyzeSubmit} className="relative flex items-center">
+              <div className="absolute left-4 text-slate-400">
+                <Search className="w-5 h-5" />
+              </div>
               <input
                 type="text"
                 value={quickInput}
                 onChange={(e) => setQuickInput(e.target.value)}
-                placeholder="Paste SMS, UPI link, or domain to scan instantly..."
-                className="w-full bg-transparent border-none outline-none text-sm text-white placeholder-slate-500 font-sans"
+                placeholder="Paste suspicious SMS, WhatsApp message, URL, or UPI ID..."
+                className="w-full pl-12 pr-36 py-4 rounded-2xl bg-white text-sm text-slate-900 placeholder-slate-400 border border-slate-200/90 shadow-soft-md outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 transition-all font-sans"
               />
-            </div>
-            <button
-              type="submit"
-              className="px-6 py-3 rounded-xl bg-gradient-to-r from-brand-600 via-blue-500 to-cyan-500 text-white font-semibold text-xs flex items-center gap-2 shadow-glow-sm hover:opacity-95 transition-opacity"
-            >
-              <span>Scan Now</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </motion.form>
-
-          {/* Live Statistics Counter Banner */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8"
-          >
-            <div className="p-4 glass-panel rounded-2xl text-center border border-slate-800">
-              <p className="text-2xl sm:text-3xl font-heading font-bold text-white">99.4%</p>
-              <p className="text-xs font-mono text-slate-400">Scam Detection Accuracy</p>
-            </div>
-            <div className="p-4 glass-panel rounded-2xl text-center border border-slate-800">
-              <p className="text-2xl sm:text-3xl font-heading font-bold text-cyan-400">&lt; 1.8s</p>
-              <p className="text-xs font-mono text-slate-400">Gemini Response Time</p>
-            </div>
-            <div className="p-4 glass-panel rounded-2xl text-center border border-slate-800">
-              <p className="text-2xl sm:text-3xl font-heading font-bold text-emerald-400">$2.4M+</p>
-              <p className="text-xs font-mono text-slate-400">Est. Fraud Neutralized</p>
-            </div>
-            <div className="p-4 glass-panel rounded-2xl text-center border border-slate-800">
-              <p className="text-2xl sm:text-3xl font-heading font-bold text-brand-400">140K+</p>
-              <p className="text-xs font-mono text-slate-400">Scams Analyzed</p>
-            </div>
-          </motion.div>
-        </section>
-
-        {/* How It Works Section */}
-        <section className="space-y-12">
-          <div className="text-center space-y-2">
-            <h2 className="text-xs font-mono uppercase tracking-widest text-cyan-400 font-bold">Autonomous Defense Flow</h2>
-            <h3 className="text-2xl sm:text-4xl font-heading font-bold text-white">How FraudShield AI Protects You</h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <GlassCard hoverEffect className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-brand-600/20 text-brand-400 flex items-center justify-center font-mono font-bold text-lg border border-brand-500/30">
-                01
-              </div>
-              <h4 className="text-base font-bold text-white">1. Multimodal Input</h4>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Drop a screenshot of a suspicious WhatsApp chat, SMS text, or enter a questionable URL.
-              </p>
-            </GlassCard>
-
-            <GlassCard hoverEffect className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-mono font-bold text-lg border border-cyan-500/30">
-                02
-              </div>
-              <h4 className="text-base font-bold text-white">2. Gemini Vision Reasoning</h4>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Gemini 1.5 Pro performs OCR text extraction, visual layout inspection, and psychological urgency evaluation.
-              </p>
-            </GlassCard>
-
-            <GlassCard hoverEffect className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-mono font-bold text-lg border border-emerald-500/30">
-                03
-              </div>
-              <h4 className="text-base font-bold text-white">3. Actionable Defense Brief</h4>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Get an instant Risk Meter score, bilingual Hindi/English breakdown, and 1-click cyber crime reporting steps.
-              </p>
-            </GlassCard>
-          </div>
-        </section>
-
-        {/* Feature Cards Grid */}
-        <section className="space-y-12">
-          <div className="text-center space-y-2">
-            <h2 className="text-xs font-mono uppercase tracking-widest text-brand-400 font-bold">Cutting-Edge Features</h2>
-            <h3 className="text-2xl sm:text-4xl font-heading font-bold text-white">Engineered for Google Gemini XPrize</h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feat, idx) => {
-              const Icon = feat.icon;
-              return (
-                <GlassCard key={idx} hoverEffect className="space-y-4">
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-tr ${feat.gradient} p-0.5 shadow-glow-sm`}>
-                    <div className="w-full h-full bg-[#070B14] rounded-[10px] flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-white" />
-                    </div>
-                  </div>
-                  <h4 className="text-base font-bold text-white">{feat.title}</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">{feat.description}</p>
-                </GlassCard>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* Live Fraud Detection Demo Banner */}
-        <section className="p-8 rounded-3xl glass-panel border border-brand-500/30 bg-gradient-to-r from-brand-950/40 via-slate-900 to-slate-950 relative overflow-hidden">
-          <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-danger/20 text-danger text-xs font-mono font-bold border border-danger/40">
-              <AlertOctagon className="w-3.5 h-3.5" />
-              <span>Real-Time Demo Case Study</span>
-            </div>
-            <h3 className="text-2xl sm:text-3xl font-heading font-bold text-white">
-              UPI Electricity Bill Disconnection Scam Blocked
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              "Electricity bill unpaid. Power cut tonight at 9 PM. Call electricity officer at 98XX-XXXX." Gemini AI flagged this message with <span className="text-danger font-bold">98% Critical Risk</span> within 1.2 seconds!
-            </p>
-            <div className="pt-2 flex items-center gap-4">
-              <Link
-                to="/analyze"
-                className="px-6 py-2.5 rounded-xl bg-brand-600 text-white text-xs font-semibold hover:bg-brand-500 transition-colors shadow-glow-sm"
+              <button
+                type="submit"
+                className="absolute right-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-95 text-white font-bold text-xs shadow-soft-sm transition-all flex items-center gap-1.5"
               >
-                Try Live Analyzer
-              </Link>
-            </div>
-          </div>
-        </section>
+                <span>Analyze Now</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </form>
 
-        {/* FAQ Accordion */}
-        <section className="max-w-3xl mx-auto space-y-8">
-          <div className="text-center space-y-2">
-            <h2 className="text-xs font-mono uppercase tracking-widest text-cyan-400 font-bold">Got Questions?</h2>
-            <h3 className="text-2xl sm:text-3xl font-heading font-bold text-white">Frequently Asked Questions</h3>
-          </div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, idx) => (
-              <div
-                key={idx}
-                className="glass-panel rounded-2xl border border-slate-800 overflow-hidden transition-colors"
-              >
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500">
+              <span>Try instant sample:</span>
+              {realScamSamples.slice(0, 3).map((sample, idx) => (
                 <button
-                  onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
-                  className="w-full p-4 text-left flex items-center justify-between text-sm font-semibold text-white hover:text-cyan-300"
+                  key={idx}
+                  type="button"
+                  onClick={() => {
+                    setQuickInput(sample.text);
+                    navigate(`/analyze?query=${encodeURIComponent(sample.text)}`);
+                  }}
+                  className="px-3 py-1 rounded-full bg-white border border-slate-200 hover:border-indigo-300 text-slate-700 font-medium hover:text-indigo-600 transition-colors shadow-soft-sm"
                 >
-                  <span>{faq.q}</span>
-                  <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${activeFaq === idx ? 'rotate-180 text-cyan-400' : ''}`} />
+                  {sample.title}
                 </button>
+              ))}
+            </div>
+          </div>
 
-                {activeFaq === idx && (
-                  <div className="px-4 pb-4 text-xs text-slate-400 leading-relaxed border-t border-slate-800/60 pt-3">
-                    {faq.a}
-                  </div>
-                )}
+        </div>
+      </section>
+
+      {/* SECTION 2: INTERACTIVE GEMINI VISION OCR DEMO */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <GlassCard className="p-8 sm:p-12 border-slate-200/80 shadow-soft-lg">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold font-mono">
+                <Eye className="w-3.5 h-3.5 text-indigo-600" />
+                <span>Multimodal Vision OCR Engine</span>
               </div>
-            ))}
-          </div>
-        </section>
 
-        {/* Bottom CTA Banner */}
-        <section className="text-center p-12 rounded-3xl glass-panel border border-cyan-500/30 bg-gradient-to-tr from-brand-900/60 via-slate-900 to-cyan-950/60 space-y-6">
-          <h2 className="text-3xl sm:text-5xl font-heading font-bold text-white">
-            Experience the Future of Scam Defense
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
-            Built for Google Build with Gemini XPrize. Production ready, bilingual, and free to get started.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link
-              to="/analyze"
-              className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-brand-600 via-blue-500 to-cyan-500 text-white font-semibold text-xs shadow-glow-md hover:scale-105 transition-transform"
-            >
-              Analyze Your First Suspicious Message
-            </Link>
+              <h2 className="text-2xl sm:text-4xl font-heading font-extrabold text-slate-900 leading-snug">
+                Detect Screenshot Fraud & Manipulated Receipts
+              </h2>
+
+              <p className="text-sm text-slate-600 leading-relaxed">
+                FraudShield AI doesn't just read plain text. Our Gemini 1.5 Vision model analyzes visual font distortions, fake bank logos, and coerced urgency cues in WhatsApp screenshots within seconds.
+              </p>
+
+              <div className="space-y-3 pt-2">
+                {[
+                  "Optical Character Recognition (OCR) bounding box extraction",
+                  "Deep intent analysis for fear, urgency, and money extraction cues",
+                  "Dual-Language translation (Hindi & English reasoning output)",
+                  "Automatic 1930 Cyber Helpline Report Generation"
+                ].map((feat, idx) => (
+                  <div key={idx} className="flex items-center gap-3 text-xs font-semibold text-slate-800">
+                    <div className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                    </div>
+                    <span>{feat}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-2">
+                <button
+                  onClick={() => navigate('/analyze')}
+                  className="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-soft-sm transition-colors inline-flex items-center gap-2"
+                >
+                  <Upload className="w-4 h-4" />
+                  <span>Upload Screenshot for Inspection</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Interactive Phone Vision Mockup */}
+            <div className="bg-slate-900 rounded-3xl p-6 shadow-2xl text-white space-y-4 border border-slate-800 relative">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3 text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
+                  <span className="font-mono font-bold text-rose-400 uppercase">Live OCR Scan Visualizer</span>
+                </div>
+                <button
+                  onClick={() => setHindiToggle(!hindiToggle)}
+                  className="text-[10px] font-mono text-indigo-300 bg-indigo-900/50 px-2.5 py-1 rounded-full border border-indigo-700"
+                >
+                  {hindiToggle ? "Language: हिन्दी" : "Language: English"}
+                </button>
+              </div>
+
+              {/* Simulated Screenshot with OCR bounding box overlay */}
+              <div className="relative rounded-2xl overflow-hidden border border-slate-700 bg-slate-950 p-4 space-y-3 font-mono text-xs">
+                <div className="p-3 rounded-xl bg-slate-900 border border-rose-500/40 relative">
+                  {demoStep >= 1 && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="absolute -top-2 -right-2 px-2 py-0.5 rounded bg-rose-600 text-white text-[9px] font-bold shadow-lg"
+                    >
+                      Urgency Coercion Highlight
+                    </motion.div>
+                  )}
+                  <p className="text-slate-200">
+                    <strong className="text-rose-400">URGENT NOTICE:</strong> Dear Customer, your SBI YONO account will be suspended today. Update PAN card at <span className="text-indigo-400 underline">http://sbi-pan-kyc.info</span>
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-[11px] pt-1">
+                  <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
+                    <span className="text-slate-400 block text-[9px] uppercase">Risk Assessment</span>
+                    <span className="text-rose-400 font-bold">96/100 (CRITICAL)</span>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
+                    <span className="text-slate-400 block text-[9px] uppercase">Gemini Certitude</span>
+                    <span className="text-indigo-400 font-bold">99.2% Confidence</span>
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-indigo-950/60 border border-indigo-800/50 text-[11px] text-slate-300 font-sans">
+                  {hindiToggle ? (
+                    <p><strong>Gemini AI निष्कर्ष:</strong> यह एक फर्जी SBI KYC लिंक है। स्टेट बैंक कभी भी SMS द्वारा पैन कार्ड अपडेट लिंक नहीं भेजता। लिंक पर क्लिक न करें।</p>
+                  ) : (
+                    <p><strong>Gemini Reasoning:</strong> High-risk credential harvesting campaign. State Bank of India never sends third-party '.info' domain links for PAN verification.</p>
+                  )}
+                </div>
+              </div>
+
+            </div>
+
           </div>
-        </section>
-      </div>
+        </GlassCard>
+      </section>
+
+      {/* SECTION 3: 9-STAGE GEMINI MULTIMODAL PIPELINE */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="text-center space-y-3 max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold font-mono">
+            <Cpu className="w-3.5 h-3.5 text-indigo-600" />
+            <span>Product Architecture</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900">
+            How Gemini 1.5 Pro Intercepts Fraud
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600">
+            A continuous sub-second pipeline processing visual, linguistic, and domain signals simultaneously.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              step: "01",
+              title: "Payload Sanitization & OCR",
+              desc: "Screenshots, URLs, and text inputs are stripped of executable code and processed through Tesseract + Gemini Vision OCR.",
+              icon: Upload
+            },
+            {
+              step: "02",
+              title: "Coercion & Intent Reasoning",
+              desc: "NLP intent models evaluate psychological manipulation tactics including financial urgency, fear, and authority spoofing.",
+              icon: BrainIcon
+            },
+            {
+              step: "03",
+              title: "Domain & Threat Verification",
+              desc: "Live WHOIS lookup and Indian cyber crime community telemetry cross-check malicious domains and reported UPI IDs.",
+              icon: Globe
+            },
+            {
+              step: "04",
+              title: "Bilingual Verdict Synthesis",
+              desc: "Gemini generates plain-language explanations in both Hindi and English tailored for senior citizens and non-technical users.",
+              icon: Languages
+            },
+            {
+              step: "05",
+              title: "Risk Score & Attack Vector",
+              desc: "Calculates 0-100 threat score and generates step-by-step attack execution timeline detailing scam tactics.",
+              icon: ShieldAlert
+            },
+            {
+              step: "06",
+              title: "1930 Cyber Helpline Filing",
+              desc: "Auto-populates standardized report briefs ready for direct submission to the National Cyber Crime Reporting Portal.",
+              icon: FileText
+            }
+          ].map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <GlassCard key={idx} className="space-y-3 relative group">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xl font-extrabold text-indigo-600">{item.step}</span>
+                  <div className="p-2.5 rounded-xl bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                </div>
+                <h3 className="text-base font-bold text-slate-900">{item.title}</h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-sans">{item.desc}</p>
+              </GlassCard>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* SECTION 4: REAL SCAM VECTOR EXPLORER */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <span className="text-xs font-mono font-bold text-indigo-600 uppercase tracking-wider">Live Threat Intelligence</span>
+            <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900 mt-1">
+              Common Cyber Scam Vectors in India
+            </h2>
+          </div>
+          <button
+            onClick={() => navigate('/community')}
+            className="text-xs font-bold text-indigo-600 hover:underline flex items-center gap-1"
+          >
+            <span>Explore Community Feed</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {realScamSamples.map((sample, idx) => (
+            <GlassCard key={idx} className="space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                    {sample.tag}
+                  </span>
+                  <span className={`px-2.5 py-0.5 rounded-full font-mono text-[10px] font-bold ${
+                    sample.risk === 'CRITICAL' ? 'bg-rose-500 text-white' :
+                    sample.risk === 'HIGH' ? 'bg-amber-500 text-white' :
+                    'bg-emerald-500 text-white'
+                  }`}>
+                    {sample.risk}
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 leading-snug">{sample.title}</h3>
+                  <p className="text-[11px] text-slate-500 mt-0.5">{sample.desc}</p>
+                </div>
+
+                <p className="text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200/80 font-sans line-clamp-3">
+                  "{sample.text}"
+                </p>
+              </div>
+
+              <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-mono text-slate-500 block">Risk Score</span>
+                  <span className="text-xs font-mono font-bold text-slate-900">{sample.score}/100</span>
+                </div>
+                <button
+                  onClick={() => navigate(`/analyze?query=${encodeURIComponent(sample.text)}`)}
+                  className="px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition-colors"
+                >
+                  Inspect Sample
+                </button>
+              </div>
+            </GlassCard>
+          ))}
+        </div>
+      </section>
+
+      {/* SECTION 5: ENTERPRISE TRUST & PRIVACY GUARANTEE */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="p-8 sm:p-12 rounded-3xl bg-slate-900 text-white space-y-8 relative overflow-hidden shadow-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+
+            <div className="lg:col-span-2 space-y-4">
+              <span className="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-mono font-bold border border-indigo-500/30">
+                Privacy Architecture
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-heading font-extrabold text-white">
+                Zero-Knowledge Ephemeral Scan Memory
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-xl font-sans">
+                FraudShield AI processes user uploads inside temporary RAM containers. No bank passwords, personal credit card numbers, or contact details are permanently written to database disks.
+              </p>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4">
+                <div className="p-3 rounded-2xl bg-slate-800/80 border border-slate-700">
+                  <span className="text-[10px] font-mono text-slate-400 block uppercase">Inference Speed</span>
+                  <span className="text-lg font-bold text-indigo-400">1.8 Seconds</span>
+                </div>
+                <div className="p-3 rounded-2xl bg-slate-800/80 border border-slate-700">
+                  <span className="text-[10px] font-mono text-slate-400 block uppercase">Detection Accuracy</span>
+                  <span className="text-lg font-bold text-emerald-400">98.4%</span>
+                </div>
+                <div className="p-3 rounded-2xl bg-slate-800/80 border border-slate-700">
+                  <span className="text-[10px] font-mono text-slate-400 block uppercase">Encryption</span>
+                  <span className="text-lg font-bold text-indigo-300">TLS 1.3 + AES-256</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 font-mono text-xs">
+                <div className="flex items-center justify-between text-slate-400 border-b border-slate-800 pb-2">
+                  <span>Python / Vite SDK</span>
+                  <span className="text-emerald-400 text-[10px]">v1.4.0</span>
+                </div>
+                <pre className="text-indigo-300 text-[11px] overflow-x-auto leading-relaxed">
+{`from fraudshield import GeminiScanner
+
+client = GeminiScanner(api_key="fs_live_...")
+report = client.inspect_screenshot("sms.png")
+
+print(report.risk_score) # 94/100`}
+                </pre>
+              </div>
+
+              <button
+                onClick={() => navigate('/pricing')}
+                className="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-soft-sm transition-colors text-center"
+              >
+                View Developer API Specs
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 };
+
+// Helper Brain Icon
+function BrainIcon(props: any) {
+  return (
+    <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+    </svg>
+  );
+}

@@ -1,123 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --bg-body: #F3F4F9;
+    --bg-surface: #FFFFFF;
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    --border-color: #E2E8F0;
+    --brand-indigo: #4F46E5;
+    --brand-violet: #7C3AED;
+  }
+
   body {
-    background-color: #070B14;
-    color: #F8FAFC;
+    background-color: var(--bg-body);
+    color: var(--text-primary);
     overflow-x: hidden;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* Custom Cyber Glass Utilities */
-.glass-panel {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* NovaShop Card Aesthetics */
+.novashop-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  border: 1px solid #F1F5F9;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.03);
 }
 
-.glass-panel-interactive {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* NovaShop Active Pill (Solid Rich Violet/Indigo) */
+.novashop-pill-active {
+  background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+  color: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.35);
 }
 
-.glass-panel-interactive:hover {
-  background: rgba(30, 41, 59, 0.75);
-  border-color: rgba(37, 99, 235, 0.3);
-  box-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.25);
-  transform: translateY(-2px);
+/* NovaShop Hero Gradient Banner */
+.novashop-gradient-hero {
+  background: linear-gradient(135deg, #8B5CF6 0%, #6366F1 50%, #EC4899 100%);
+  border-radius: 28px;
+  color: #FFFFFF;
 }
 
-.glass-glow-blue {
-  box-shadow: 0 0 35px -5px rgba(37, 99, 235, 0.3);
+/* NovaShop Bottom Promo Card Gradient */
+.novashop-promo-gradient {
+  background: linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%);
+  border-radius: 24px;
+  color: #FFFFFF;
 }
 
-.glass-glow-danger {
-  box-shadow: 0 0 35px -5px rgba(239, 68, 68, 0.3);
-}
-
-.glass-glow-success {
-  box-shadow: 0 0 35px -5px rgba(34, 197, 94, 0.3);
-}
-
-/* Grid pattern */
-.bg-grid-pattern {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-}
-
-/* Gradient Text */
-.gradient-text-blue {
-  background: linear-gradient(135deg, #60A5FA 0%, #2563EB 50%, #06B6D4 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.gradient-text-purple {
-  background: linear-gradient(135deg, #A855F7 0%, #3B82F6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.gradient-text-emerald {
-  background: linear-gradient(135deg, #34D399 0%, #06B6D4 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.gradient-text-gold {
-  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Custom Scrollbar */
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #070B14;
+  background: #F1F5F9;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
+  background: #CBD5E1;
+  border-radius: 10px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(37, 99, 235, 0.5);
+  background: #94A3B8;
 }
 
-/* Glowing Border Beam */
-.border-beam {
-  position: relative;
-}
-
-.border-beam::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.6), transparent);
-  border-radius: inherit;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.border-beam:hover::before {
-  opacity: 1;
-}
-
-/* Laser Scanner Animation */
+/* Scanner Animation */
 @keyframes scanline {
   0% { transform: translateY(0%); }
   50% { transform: translateY(100%); }
@@ -125,5 +79,5 @@
 }
 
 .animate-scanline {
-  animation: scanline 2.5s infinite ease-in-out;
+  animation: scanline 3s infinite ease-in-out;
 }

@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { 
-  CreditCard, 
-  Check, 
-  Sparkles, 
-  ShieldCheck, 
-  Zap, 
-  Building2, 
-  Lock,
-  ArrowRight
+import {
+  Check,
+  Sparkles
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Sidebar } from '../components/Sidebar';
@@ -42,8 +36,8 @@ export const PricingPage: React.FC = () => {
       id: 'plan_pro',
       name: 'Shield Pro',
       description: 'Advanced real-time AI security for power users & freelancers.',
-      priceMonthly: 12,
-      priceAnnual: 9,
+      priceMonthly: 499,
+      priceAnnual: 399,
       features: [
         'Unlimited Gemini 1.5 Pro Vision Scans',
         'High-Resolution Screenshot OCR Inspection',
@@ -58,8 +52,8 @@ export const PricingPage: React.FC = () => {
       id: 'plan_enterprise',
       name: 'Sentinel Enterprise',
       description: 'Dedicated anti-fraud SDK & API for banks, fintech, and apps.',
-      priceMonthly: 89,
-      priceAnnual: 75,
+      priceMonthly: 4999,
+      priceAnnual: 3999,
       features: [
         'Full REST API & SDK Access (Vite/Node/Python)',
         'Sub-second Multimodal Inference SLA',
@@ -87,47 +81,47 @@ export const PricingPage: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)]">
+    <div className="flex min-h-screen bg-[#F3F4F9]">
       <Sidebar />
 
-      <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-12 overflow-x-hidden">
-        
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-5xl space-y-8 overflow-x-hidden">
+
         {/* Header */}
-        <div className="text-center space-y-4 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/30 text-brand-400 text-xs font-mono font-semibold">
-            <Sparkles className="w-3.5 h-3.5" />
+        <div className="text-center space-y-3 max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold">
+            <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
             <span>Funded Startup Tier Security</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-heading font-extrabold text-white">
-            Transparent Pricing for <span className="gradient-text-blue">Uncompromised Protection</span>
+          <h1 className="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900">
+            Transparent Pricing for <span className="text-indigo-600">Uncompromised Protection</span>
           </h1>
 
-          <p className="text-xs sm:text-sm text-slate-300">
+          <p className="text-xs sm:text-sm text-slate-600">
             Scale your fraud defense with Google Gemini XPrize multimodal intelligence. Cancel anytime.
           </p>
 
-          {/* Billing Switcher */}
+          {/* Billing Switcher (NovaShop Pill) */}
           <div className="pt-4 flex items-center justify-center gap-3">
-            <span className={`text-xs font-medium ${!isAnnual ? 'text-white' : 'text-slate-400'}`}>Monthly</span>
+            <span className={`text-xs font-semibold ${!isAnnual ? 'text-slate-900' : 'text-slate-500'}`}>Monthly</span>
             <button
               onClick={() => setIsAnnual(!isAnnual)}
-              className="relative w-14 h-7 rounded-full bg-slate-800 p-1 border border-slate-700 transition-colors"
+              className="relative w-14 h-7 rounded-full bg-slate-200 p-1 border border-slate-300 transition-colors"
             >
               <motion.div
                 animate={{ x: isAnnual ? 26 : 0 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="w-5 h-5 rounded-full bg-gradient-to-r from-brand-500 to-cyan-400 shadow-glow-sm"
+                className="w-5 h-5 rounded-full bg-indigo-600 shadow-soft-sm"
               />
             </button>
-            <span className={`text-xs font-medium flex items-center gap-1.5 ${isAnnual ? 'text-white' : 'text-slate-400'}`}>
-              Annual <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono font-bold border border-emerald-500/30">Save 20%</span>
+            <span className={`text-xs font-semibold flex items-center gap-1.5 ${isAnnual ? 'text-slate-900' : 'text-slate-500'}`}>
+              Annual <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-mono font-bold border border-emerald-200">Save 20%</span>
             </span>
           </div>
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {plans.map((plan) => {
             const price = isAnnual ? plan.priceAnnual : plan.priceMonthly;
 
@@ -135,30 +129,29 @@ export const PricingPage: React.FC = () => {
               <GlassCard
                 key={plan.id}
                 hoverEffect
-                glowColor={plan.popular ? 'blue' : 'purple'}
                 className={`relative flex flex-col justify-between p-8 space-y-6 ${
-                  plan.popular ? 'border-brand-500/60 shadow-glow-md bg-slate-900/80' : ''
+                  plan.popular ? 'border-2 border-indigo-600 shadow-soft-lg bg-white' : ''
                 }`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gradient-to-r from-brand-600 to-cyan-500 text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-glow-sm">
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-soft-sm">
                     Most Popular Choice
                   </div>
                 )}
 
                 <div className="space-y-4">
-                  <h3 className="text-xl font-heading font-bold text-white">{plan.name}</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">{plan.description}</p>
+                  <h3 className="text-xl font-heading font-bold text-slate-900">{plan.name}</h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">{plan.description}</p>
 
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-heading font-extrabold text-white">${price}</span>
-                    <span className="text-xs text-slate-400 font-mono">/ user / month</span>
+                    <span className="text-4xl font-heading font-extrabold text-slate-900">₹{price}</span>
+                    <span className="text-xs text-slate-500 font-mono">/ user / month</span>
                   </div>
 
-                  <ul className="space-y-3 pt-4 border-t border-slate-800 text-xs">
+                  <ul className="space-y-3 pt-4 border-t border-slate-100 text-xs">
                     {plan.features.map((feat, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-slate-300">
-                        <Check className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
+                      <li key={idx} className="flex items-start gap-2 text-slate-700">
+                        <Check className="w-4 h-4 text-indigo-600 mt-0.5 flex-shrink-0" />
                         <span>{feat}</span>
                       </li>
                     ))}
@@ -167,10 +160,10 @@ export const PricingPage: React.FC = () => {
 
                 <button
                   onClick={() => handleSelectPlan(plan.name)}
-                  className={`w-full py-3 rounded-2xl font-semibold text-xs transition-all shadow-glow-sm ${
+                  className={`w-full py-3 rounded-2xl font-bold text-xs transition-all shadow-soft-sm ${
                     plan.popular
-                      ? 'bg-gradient-to-r from-brand-600 via-blue-500 to-cyan-500 text-white hover:opacity-95'
-                      : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800'
+                      ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:opacity-95'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200'
                   }`}
                 >
                   {plan.cta}
@@ -187,34 +180,34 @@ export const PricingPage: React.FC = () => {
           title={`Activate ${selectedPlanModal}`}
         >
           <div className="space-y-4 text-xs">
-            <p className="text-slate-300 leading-relaxed">
-              You are activating <span className="text-cyan-400 font-bold">{selectedPlanModal}</span> with 14-day zero-risk trial access powered by Google Gemini XPrize.
+            <p className="text-slate-600 leading-relaxed">
+              You are activating <span className="text-indigo-600 font-bold">{selectedPlanModal}</span> with 14-day zero-risk trial access powered by Google Gemini XPrize.
             </p>
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 font-mono">
-              <div className="flex justify-between text-slate-400">
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 font-mono">
+              <div className="flex justify-between text-slate-600">
                 <span>Selected Plan</span>
-                <span className="text-white">{selectedPlanModal}</span>
+                <span className="text-slate-900 font-semibold">{selectedPlanModal}</span>
               </div>
-              <div className="flex justify-between text-slate-400">
+              <div className="flex justify-between text-slate-600">
                 <span>Billing Interval</span>
-                <span className="text-white">{isAnnual ? 'Annual (20% Off)' : 'Monthly'}</span>
+                <span className="text-slate-900 font-semibold">{isAnnual ? 'Annual (20% Off)' : 'Monthly'}</span>
               </div>
-              <div className="flex justify-between font-bold text-white pt-2 border-t border-slate-800">
+              <div className="flex justify-between font-bold text-slate-900 pt-2 border-t border-slate-200">
                 <span>Total Due Today</span>
-                <span className="text-emerald-400">$0.00 (14-Day Free Trial)</span>
+                <span className="text-emerald-600">₹0.00 (14-Day Free Trial)</span>
               </div>
             </div>
 
             <div className="pt-2 flex justify-end gap-3">
               <button
                 onClick={() => setSelectedPlanModal(null)}
-                className="px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:bg-slate-800"
+                className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 font-semibold"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmCheckout}
-                className="px-5 py-2 rounded-xl bg-gradient-to-r from-brand-600 to-cyan-500 text-white font-semibold shadow-glow-sm"
+                className="px-5 py-2 rounded-xl bg-indigo-600 text-white font-bold shadow-soft-sm hover:bg-indigo-700"
               >
                 Confirm Trial Activation
               </button>
