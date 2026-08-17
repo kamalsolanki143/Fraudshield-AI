@@ -6,12 +6,13 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 
 export const RegisterPage: React.FC = () => {
-  const { login } = useAuth();
+  const { verifyOTP } = useAuth();
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const getPasswordStrength = () => {
     if (!password) return 0;
@@ -22,12 +23,19 @@ export const RegisterPage: React.FC = () => {
     return score;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email && password && name) {
-      login(email, 'jwt_new_user_token');
-      toast.success('Registration successful! Welcome to FraudShield AI.');
-      navigate('/dashboard');
+      setIsLoading(true);
+      try {
+        await verifyOTP(email, '123456');
+        toast.success('Registration successful! Welcome to FraudShield AI.');
+        navigate('/dashboard');
+      } catch (err: any) {
+        toast.error(err.message || 'Registration failed.');
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 

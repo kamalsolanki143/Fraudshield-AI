@@ -82,7 +82,8 @@ export const AnalyzePage: React.FC = () => {
     }, 450);
 
     try {
-      const res = await fraudService.analyzeText(content);
+      const type = activeTab === 'url' ? 'url' : 'text';
+      const res = await fraudService.analyzeContent(content, type);
       clearInterval(stepInterval);
       setResult(res);
       toast.success('Gemini Multimodal Analysis Complete!');
@@ -108,7 +109,7 @@ export const AnalyzePage: React.FC = () => {
     }, 450);
 
     try {
-      const res = await fraudService.analyzeImage(selectedFile);
+      const res = await fraudService.analyzeContent(selectedFile, 'image');
       clearInterval(stepInterval);
       setResult(res);
       toast.success('Screenshot Vision OCR Complete!');
@@ -259,7 +260,7 @@ export const AnalyzePage: React.FC = () => {
             </AnimatePresence>
 
             {result && !isScanning && (
-              <FraudTimeline timeline={result.attackTimeline} />
+              <FraudTimeline timeline={result.timeline} />
             )}
           </div>
 
@@ -272,7 +273,7 @@ export const AnalyzePage: React.FC = () => {
                 className="space-y-6"
               >
                 <RiskMeter score={result.riskScore} riskLevel={result.riskLevel} />
-                <ConfidenceMeter confidenceScore={result.confidenceScore} breakdown={result.breakdown} />
+                <ConfidenceMeter confidenceScore={result.confidenceScore} breakdown={result.modelConfidence} />
 
                 {/* Gemini Summary */}
                 <GlassCard className="space-y-4">
@@ -293,7 +294,7 @@ export const AnalyzePage: React.FC = () => {
 
                   <div className="pt-2 border-t border-slate-100 space-y-2">
                     <span className="text-[10px] font-mono text-slate-500 uppercase font-semibold">Recommended Defense</span>
-                    {result.recommendations.map((rec, idx) => (
+                    {((hindiTranslation && result.recommendedActionsHindi?.length) ? result.recommendedActionsHindi : result.recommendedActions).map((rec: string, idx: number) => (
                       <div key={idx} className="flex items-start gap-2 text-xs text-slate-800">
                         <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                         <span>{rec}</span>
